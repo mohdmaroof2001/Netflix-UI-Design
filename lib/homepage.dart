@@ -1,9 +1,7 @@
-// import 'dart:html';
-
-// ignore_for_file: prefer_const_constructors
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:netflix/alldatamodal.dart';
+import 'package:netflix/description.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
@@ -91,9 +89,12 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       extendBodyBehindAppBar: true,
-      body: SingleChildScrollView(
-        child: Container(
-          color: Colors.black,
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        color: Colors.black,
+        child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           child: Column(
             children: [
               Stack(
@@ -195,6 +196,9 @@ class _HomePageState extends State<HomePage> {
                   )
                 ],
               ),
+              SizedBox(
+                height: 10,
+              ),
               Padding(
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: Category("Resently watched", "View All")),
@@ -205,26 +209,53 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.only(left: 15),
                 child: Container(
                   height: 200,
-                  // width: 150,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      SizedBox(
-                        height: 150,
-                      ),
-                      AllMovies("assest/poster/spiderman.jpg"),
-                      AllMovies("assest/bollywood/kabir.jpg"),
-                      AllMovies("assest/southmovie/kgf.jpg"),
-                      AllMovies("assest/poster/pirates.jpg"),
-                      AllMovies("assest/bollywood/sister.jpg"),
-                      AllMovies("assest/southmovie/pushpa.jpg"),
-                    ],
-                  ),
+                  child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: resentmovieData.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, indexNo) {
+                        return Column(
+                          children: [
+                            Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    // print(indexNo);
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => infoPage(
+                                                  data:
+                                                      resentmovieData[indexNo],
+                                                )));
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(right: 20),
+                                    height: 200,
+                                    width: 150,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Image.asset(
+                                      resentmovieData[indexNo].poster,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        );
+                      }),
                 ),
+              ),
+              SizedBox(
+                height: 10,
               ),
               Padding(
                   padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: Category("Hollywood Movies", "View All")),
+                  child: Category("Hollywood Movie", "View All")),
               SizedBox(
                 height: 10,
               ),
@@ -232,22 +263,48 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.only(left: 15),
                 child: Container(
                   height: 200,
-                  // width: 150,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      SizedBox(
-                        height: 150,
-                      ),
-                      AllMovies("assest/poster/pirates.jpg"),
-                      AllMovies("assest/poster/popeye.jpg"),
-                      AllMovies("assest/poster/dedpool.jpg"),
-                      AllMovies("assest/poster/logan.jpg"),
-                      AllMovies("assest/poster/spiderman.jpg"),
-                      AllMovies("assest/poster/superman.jpg"),
-                    ],
-                  ),
+                  child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: hollywoodMovieData.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, indexNo) {
+                        return Column(
+                          children: [
+                            Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => infoPage(
+                                                  data: hollywoodMovieData[
+                                                      indexNo],
+                                                )));
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(right: 20),
+                                    height: 200,
+                                    width: 150,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Image.asset(
+                                      hollywoodMovieData[indexNo].poster,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        );
+                      }),
                 ),
+              ),
+              SizedBox(
+                height: 10,
               ),
               Padding(
                   padding: const EdgeInsets.only(left: 20, right: 20),
@@ -259,26 +316,52 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.only(left: 15),
                 child: Container(
                   height: 200,
-                  // width: 150,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      SizedBox(
-                        height: 150,
-                      ),
-                      AllMovies("assest/bollywood/chennai.jpg"),
-                      AllMovies("assest/bollywood/krish.jpg"),
-                      AllMovies("assest/bollywood/mastani.jpg"),
-                      AllMovies("assest/bollywood/sister.jpg"),
-                      AllMovies("assest/bollywood/milkha.jpg"),
-                      AllMovies("assest/bollywood/kabir.jpg"),
-                    ],
-                  ),
+                  child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: bollywoodMovieData.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, indexNo) {
+                        return Column(
+                          children: [
+                            Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => infoPage(
+                                                  data: bollywoodMovieData[
+                                                      indexNo],
+                                                )));
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(right: 20),
+                                    height: 200,
+                                    width: 150,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Image.asset(
+                                      bollywoodMovieData[indexNo].poster,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        );
+                      }),
                 ),
+              ),
+              SizedBox(
+                height: 10,
               ),
               Padding(
                   padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: Category("South Indian Movies", "View All")),
+                  child: Category("South Movies", "View All")),
               SizedBox(
                 height: 10,
               ),
@@ -286,23 +369,45 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.only(left: 15),
                 child: Container(
                   height: 200,
-                  // width: 150,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      SizedBox(
-                        height: 150,
-                      ),
-                      AllMovies("assest/southmovie/asn.png"),
-                      AllMovies("assest/southmovie/kaala.jpg"),
-                      AllMovies("assest/southmovie/master.jpg"),
-                      AllMovies("assest/southmovie/pushpa.jpg"),
-                      AllMovies("assest/southmovie/bahubali.jpg"),
-                      AllMovies("assest/southmovie/kgf.jpg"),
-                    ],
-                  ),
+                  child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: southMovieData.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, indexNo) {
+                        return Column(
+                          children: [
+                            Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => infoPage(
+                                                  data: southMovieData[indexNo],
+                                                )));
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(right: 20),
+                                    height: 200,
+                                    width: 150,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Image.asset(
+                                      southMovieData[indexNo].poster,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        );
+                      }),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -346,21 +451,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  AllMovies(String image) {
-    return Container(
-        margin: EdgeInsets.only(right: 20),
-        // height: 100,
-        width: 150,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Image.asset(
-          image,
-          fit: BoxFit.cover,
-        ));
-  }
-
   Category(String movie, String view) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -378,11 +468,6 @@ class _HomePageState extends State<HomePage> {
           style: ElevatedButton.styleFrom(
             primary: Colors.transparent,
             elevation: 0,
-            // fixedSize: Size(50, 60),
-            maximumSize: Size(
-              MediaQuery.of(context).size.width,
-              MediaQuery.of(context).size.height,
-            ),
           ),
         ),
       ],
